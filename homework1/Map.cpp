@@ -21,6 +21,7 @@ bool Map::insert(const KeyType& key, const ValueType& value){
 	} 
 	m_kv[m_len].key = key;
         m_kv[m_len].value = value;
+	m_len++;
 	return true;
     }
 }
@@ -39,6 +40,7 @@ bool Map::insertOrUpdate(const KeyType& key, const ValueType& value){
     for(int i = 0; i < m_len; i++){
         if(key == m_kv[i].key){
 	    m_kv[i].value = value;   
+	    return true;
 	}
     }
 
@@ -47,6 +49,7 @@ bool Map::insertOrUpdate(const KeyType& key, const ValueType& value){
     else{
 	m_kv[m_len].key = key;
         m_kv[m_len].value = value;
+	m_len++;
 	return true;
     } 
 }
@@ -97,10 +100,13 @@ void Map::swap(Map& other){
     other.m_len = this->m_len;
     this->m_len = tmp;
 
-    kv* other_kv = other.m_kv;
-    kv* this_kv = this->m_kv;
+    for(int i = 0; i < DEFAULT_MAX_ITEMS; i++){
+        KeyType tmp_key = other.m_kv[i].key;
+	other.m_kv[i].key = this->m_kv[i].key;
+	this->m_kv[i].key = tmp_key;
 
-    kv* tmp_kv = other_kv;
-    other_kv = this_kv;
-    this_kv = tmp_kv;
+        ValueType tmp_value = other.m_kv[i].value;
+	other.m_kv[i].value = this->m_kv[i].value;
+	this->m_kv[i].value = tmp_value;
+    }
 }

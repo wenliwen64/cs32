@@ -66,7 +66,7 @@ class Map
 	void swap(Map& other);
 	// Exchange the contents of this map with the other one.
     private:
-        kv* m_kv;     
+        kv m_kv[DEFAULT_MAX_ITEMS];     
 	int m_len;
 };
 #endif //MAP_INCLUDED
