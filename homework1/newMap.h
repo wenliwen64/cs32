@@ -16,7 +16,10 @@ typedef struct{
 class Map
 {
     public:
-	Map();         // Create an empty map (i.e., one with no key/value pairs)
+	Map(const int n=DEFAULT_MAX_ITEMS);         // Create an empty map (i.e., one with no key/value pairs)
+	~Map();        //TODO
+	Map(const Map& other);            //TODO
+	Map& operator=(const Map& rhs); //TODO
 
 	bool empty() const;  // Return true if the map is empty, otherwise false.
 
@@ -71,7 +74,8 @@ class Map
 	
 	void dump() const;
     private:
-        kv m_kv[DEFAULT_MAX_ITEMS];     
+        kv* m_kv;     
 	int m_len;
+	int m_max;
 };
 #endif //MAP_INCLUDED

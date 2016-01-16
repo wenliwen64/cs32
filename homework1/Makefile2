@@ -1,0 +1,8 @@
+DIR := $(shell pwd)
+CPP := g++
+
+all: testNewMap 
+testNewMap: testNewMap.o newMap.o
+	$(CPP) $^ -o $@
+%.o:%.cpp
+	$(CPP) -c $< -o $@

@@ -1,0 +1,8 @@
+DIR := $(shell pwd)
+CPP := g++
+
+all: testWeightMap 
+testWeightMap: testWeightMap.o WeightMap.o Map.o
+	$(CPP) $^ -o $@
+%.o:%.cpp
+	$(CPP) -c $< -o $@
