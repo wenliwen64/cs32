@@ -1,8 +1,17 @@
 #include "newMap.h"
 #include <iostream>
+#include <cstdlib>
 
-Map::Map(const int n):m_kv(new kv[n]), m_max(n){//TODO
-    m_len = 0;
+Map::Map(const int n){//TODO
+    if(n < 0){
+	std::cout << "n < 0!" << std::endl; 
+	exit(1);
+    }
+    else{
+	m_len = 0;
+	m_max = n;
+	m_kv = new kv[n];
+    }
 }
 
 Map::~Map(){
@@ -144,6 +153,6 @@ void Map::swap(Map& other){
 
 void Map::dump() const{
     for(int i = 0; i < m_len; i++){
-	std::cout << m_kv[i].key << " " << m_kv[i].value << std::endl;
+	std::cerr << m_kv[i].key << " " << m_kv[i].value << std::endl;
     }
 }

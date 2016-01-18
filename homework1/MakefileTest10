@@ -1,10 +1,10 @@
 DIR := $(shell pwd)
 CPP := g++
 
-all: testNewMap 
-testNewMap: testNewMap.o newMap.o
+all: testNewMapTest10
+testNewMapTest10: testNewMapTest10.o newMap.o
 	$(CPP) $^ -o $@
-testNewMap.o:testNewMap.cpp
+testNewMapTest10.o:testNewMapTest10.cpp
 	$(CPP) -c $< -o $@
 newMap.o:newMap.h newMap.cpp
 	$(CPP) -c newMap.cpp -o $@

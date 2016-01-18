@@ -1,8 +1,10 @@
 DIR := $(shell pwd)
 CPP := g++
 
-all: main
-main: $(patsubst %.cpp,%.o,$(wildcard *.cpp)) 
+all: testMap 
+testMap:Map.o testMap.o
 	$(CPP) $^ -o $@
-%.o:%.cpp
-	$(CPP) -c $< -o $@
+Map.o: Map.h Map.cpp
+	$(CPP) -c Map.cpp -o Map.o 
+testMap.o: testMap.cpp Map.h
+	$(CPP) -c testMap.cpp -o testMap.o 

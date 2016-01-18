@@ -1,10 +1,10 @@
 #ifndef MAP_INCLUDED
 #define MAP_INCLUDED
 #include <string>
-typedef std::string KeyType; 
-//typedef int KeyType; 
-typedef double ValueType;
-//typedef std::string ValueType;
+//typedef std::string KeyType; 
+typedef int KeyType; 
+//typedef double ValueType;
+typedef std::string ValueType;
 
 const int DEFAULT_MAX_ITEMS = 200;
 

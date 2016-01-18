@@ -114,6 +114,6 @@ void Map::swap(Map& other){
 
 void Map::dump() const{
     for(int i = 0; i < m_len; i++){
-	std::cout << m_kv[i].key << " " << m_kv[i].value << std::endl;
+	std::cerr << m_kv[i].key << " " << m_kv[i].value << std::endl;
     }
 }

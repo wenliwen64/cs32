@@ -1,4 +1,5 @@
 #include "WeightMap.h"
+#include <iostream> 
 
 WeightMap::WeightMap(){
 }
@@ -34,5 +35,10 @@ int WeightMap::size() const{
 }
 
 void WeightMap::print() const{
-    m_map.dump(); 
+    std::string tmp_name;
+    double tmp_weight;
+    for(int i = 0; i < m_map.size(); i++){
+	m_map.get(i, tmp_name, tmp_weight);
+	std::cout << tmp_name << " " << tmp_weight << std::endl;
+    }
 }

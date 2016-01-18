@@ -24,4 +24,6 @@ int main(){
     std::cout << "b" << std::endl;
     b.dump();
     std::cout << "pass all tests" << std::endl;
+
+    Map d(-2);
 }

@@ -4,5 +4,9 @@ CPP := g++
 all: testWeightMap 
 testWeightMap: testWeightMap.o WeightMap.o Map.o
 	$(CPP) $^ -o $@
-%.o:%.cpp
-	$(CPP) -c $< -o $@
+Map.o: Map.h Map.cpp
+	$(CPP) -c Map.cpp -o Map.o 
+WeightMap.o:WeightMap.cpp WeightMap.h
+	$(CPP) -c WeightMap.cpp -o $@
+testWeightMap.o:testWeightMap.cpp
+	$(CPP) -c $^ -o $@
