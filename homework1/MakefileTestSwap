@@ -1,0 +1,10 @@
+DIR := $(shell pwd)
+CPP := g++
+
+all: testMapSwap
+testMapSwap:Map.o testMapSwap.o
+	$(CPP) $^ -o $@
+Map.o: Map.h Map.cpp
+	$(CPP) -c Map.cpp -o Map.o 
+testMapSwap.o: testMapSwap.cpp Map.h
+	$(CPP) -c testMapSwap.cpp -o testMapSwap.o 

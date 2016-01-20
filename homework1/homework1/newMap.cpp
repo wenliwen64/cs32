@@ -92,7 +92,6 @@ bool Map::erase(const KeyType& key){
 	        m_kv[j].key = m_kv[j+1].key;
 	        m_kv[j].value = m_kv[j+1].value;
 	    }
-	    m_len--;
 	    return true;
 	}
     } 
