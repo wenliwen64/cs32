@@ -88,7 +88,7 @@ bool Map::get(const KeyType& key, ValueType& value) const{
 }
 
 bool Map::get(int i, KeyType& key, ValueType& value) const{
-    if(0 <= i && i < size()){//Wrong!! size might be zero;
+    if(0 <= i && i <= size()){
 	key = m_kv[i].key;
 	value = m_kv[i].value;
 	return true;
