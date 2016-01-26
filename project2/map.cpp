@@ -9,27 +9,31 @@ Map::Map():m_len(0){
 }
 
 Map::~Map(){
-    for(Node* curr = m_head->m_next; curr != m_head; curr = curr->m_next)
-	erase(curr->m_pair.m_key);
-    delete m_head;
+    // loop over normal nodes and delete them on by one
+    for(Node* curr = m_head->m_next; curr != m_head; curr = curr->m_next){
+	KeyType key = curr->m_pair.m_key;
+        curr = curr->m_prev;
+	erase(key);
+    }
+    delete m_head; // delete dummy node
 }
 
 Map::Map(const Map& other){
     m_len = 0;//TODO
-    m_head = new Node();
+    m_head = new Node(); // create a dummy node
     m_head->m_next = m_head;
     m_head->m_prev = m_head;
     m_tail = m_head;
     KeyType key;
     ValueType value;
-    for(int i = 0; i < other.m_len; i++){
+    for(int i = 0; i < other.m_len; i++){ // copy each pair from other
 	other.get(i, key, value);
 	this->insert(key, value);
     }
 }
 
 Map& Map::operator=(const Map& rhs){//TODO: why Map&
-    if(this != &rhs){
+    if(this != &rhs){ // copy and swap 
 	Map temp(rhs);
 	swap(temp);
     }
@@ -68,7 +72,7 @@ bool Map::insert(const KeyType& key, const ValueType& value){
 
 bool Map::update(const KeyType& key, const ValueType& value){
     for(Node* curr = m_head->m_next; curr != m_head; curr = curr->m_next){
-        if(curr->m_pair.m_key == key){
+        if(curr->m_pair.m_key == key){ // if found the key update the value and return
             curr->m_pair.m_value = value;
 	    return true;
 	}
@@ -83,10 +87,10 @@ bool Map::insertOrUpdate(const KeyType& key, const ValueType& value){
 bool Map::erase(const KeyType& key){
     for(Node* curr = m_head->m_next; curr != m_head; curr = curr->m_next){
         if(curr->m_pair.m_key == key){
-	    curr->m_prev->m_next = curr->m_next;
+	    curr->m_prev->m_next = curr->m_next; 
 	    curr->m_next->m_prev = curr->m_prev;
 
-	    if(curr == m_tail)// Special case
+	    if(curr == m_tail)// Special case(tail)
                 m_tail = curr->m_prev;
 	    delete curr;
 	    m_len--;
@@ -144,7 +148,7 @@ void Map::swap(Map& other){
     other.m_tail = tmp_tail;
 }
 
-void Map::dump(){
+void Map::dump() const{
     Node* curr = m_head->m_next;
     for(int i = 0; i < size(); i++){
 	std::cerr << curr->m_pair.m_key  << " " << curr->m_pair.m_value << std::endl;
@@ -154,21 +158,20 @@ void Map::dump(){
 
 bool combine(const Map& m1, const Map& m2, Map& result){
     bool combine_flag = true;
-    Map tmp_result = m1;
-    
-    std::cerr << tmp_result.size() << " debugging " << std::endl;
+    Map tmp_result = m1; // copy m1 to tmp_result
+
     for(int i = 0; i < m2.size(); i++){
 	KeyType key;
 	ValueType value_m2;
-	m2.get(i, key, value_m2);
-	if(m1.contains(key)){
+	m2.get(i, key, value_m2); 
+	if(m1.contains(key)){// if found the same key in m1 check the value 
 	    ValueType value_m1;
 	    m1.get(key, value_m1);
 	    if(value_m1 == value_m2){
-	        continue;	
+		continue;
 	    }
 	    else{
-		tmp_result.erase(key);
+		tmp_result.erase(key); // delete the pair if values are not matched in two input maps
 		combine_flag = false;
 	    }
 	}
@@ -177,22 +180,27 @@ bool combine(const Map& m1, const Map& m2, Map& result){
 	}
     }
 
+    /*
     for(int i = 0; i < tmp_result.size() ; i++){
 	KeyType key;
 	ValueType value;
 	tmp_result.get(i, key, value);
-        result.insertOrUpdate(key, value);
+	result.insertOrUpdate(key, value);
     }
-
+    */
+    result = tmp_result;
     return combine_flag;
 }
 
 void subtract(const Map& m1, const Map& m2, Map& result){
+    Map tmp_result;
     for(int i = 0; i < m1.size(); i++){
 	KeyType key_m1;
 	ValueType value_m1;
-        m1.get(i, key_m1, value_m1); 
-        if(!m2.contains(key_m1))
-	    result.insertOrUpdate(key_m1, value_m1);
+	m1.get(i, key_m1, value_m1);
+	if(!m2.contains(key_m1)) // find out the different ones
+	    tmp_result.insert(key_m1, value_m1);
     }
+
+    result = tmp_result;
 }

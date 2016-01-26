@@ -2,7 +2,9 @@
 #define MAP_INCLUDED
 #include <string>
 typedef std::string KeyType;
+//typedef int KeyType;
 typedef double ValueType;
+//typedef std::string ValueType;
 
 class Map{
     public:
@@ -20,7 +22,7 @@ class Map{
 	bool get(const KeyType& key, ValueType& value) const;
 	bool get(int i, KeyType& key, ValueType& value) const;
 	void swap(Map& other);
-	void dump();
+	void dump() const;
     private:
 	struct Pair{
 	    KeyType m_key;
@@ -39,4 +41,8 @@ class Map{
         Node* m_head;
 	Node* m_tail;
 };
+
+bool combine(const Map& m1, const Map& m2, Map& result);
+void subtract(const Map& m1, const Map& m2, Map& result);
+
 #endif
