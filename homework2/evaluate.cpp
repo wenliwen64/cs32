@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cassert>
 #include <algorithm>
+#include <vector>
 using namespace std;
 
 int precedence(const char c){
@@ -39,62 +40,37 @@ bool isValid(const string& infix){
     }
     cout << "-======" << tmp_infix << endl;
 
-    stack<char> pad_string;
-    pad_string.push(' ');
+    vector<char> pad_string;
+    pad_string.push_back(' ');
     for(string::iterator it = tmp_infix.begin(); it != tmp_infix.end(); it++){
         if(catChar(*it) == 4){
-	    pad_string.push(' ');
-	    pad_string.push(*it);
-	    pad_string.push(' ');
+	    pad_string.push_back(' ');
+	    pad_string.push_back(*it);
+	    pad_string.push_back(' ');
 	}
 	else if(*it == '('){
-	    pad_string.push(*it);
-	    pad_string.push(' ');
+	    pad_string.push_back(*it);
+	    pad_string.push_back(' ');
 	}
 	else if(*it == ')'){
-	    pad_string.push(' ');
-	    pad_string.push(*it);
+	    pad_string.push_back(' ');
+	    pad_string.push_back(*it);
 	}
 	else if(*it == ' ')
 	    it++;
 	else
-	    pad_string.push(*it);
+	    pad_string.push_back(*it);
     }
-    pad_string.push(' ');
+    pad_string.push_back(' ');
 
     string final_string;
-    while(!pad_string.empty()){
-        final_string += pad_string.top();
-	pad_string.pop();
+    for(vector<char>::iterator it = pad_string.begin(); it != pad_string.end(); it++){
+         final_string += *it;
     }
 
-    reverse(final_string.begin(), final_string.end());
     cout << final_string << endl;;
          
     tmp_infix = final_string;
-	 /*
-    tmp_infix = " " + tmp_infix + " ";
-    cout << "happy" << endl;
-    cout << tmp_infix << endl;
-    for(string::iterator it = tmp_infix.begin(); it != tmp_infix.end(); it++){
-        if(catChar(*it) == 4){  
-	    cout << catChar(*it) << endl;
-	    tmp_infix.insert(it, ' ');
-	    tmp_infix.insert(it + 2, ' ');
-	    it += 2;
-	}
-	else if(*it == '('){
-	    tmp_infix.insert(it + 1, ' ');
-	    it++;
-	}
-	else if(*it == ')'){
-	    tmp_infix.insert(it, ' ');
-	    it++;
-	}
-	
-    }
-    */
-
     cout << "tmp_infix = " << tmp_infix << endl;
     string::iterator prev = tmp_infix.begin();
     int count_open = 0;
@@ -108,31 +84,39 @@ bool isValid(const string& infix){
     if(count_open != count_close) return false;
 
     return true;
-/*
-    for(int)
-    if(count_left != count_right) return false; // Pair the parenthese;
-
-    int prev = 0;
-    int count_left = 0;
-    int count_right = 0;
-    for(int i = 0; i < infix.size(); prev = i, i++){
-        if(string[i] == "(") count_left++;
-        if(string[i] == ")") count_right++;
-	if(count_left < count_right) return false;
-
-        if(isOperator(infix[prev] && isOperator(infix[i]))) return false;
-        if(isOperand(infix[prev] && isOperand(infix[i]))) return false;
-	if(infix[prev] == "(" && isOperator(infix[i])) return false;
-	if(infix[i] == ")" && isOperator(infix[prev])) return false;
-	if(infix[prev] == ")" && isOperand(infix[i]) return false;
-	if(isOperand(infix[i]) && infix[i] == "(") return false;
-	if(i == infix.size()-1 && isOperator(infix[i])) return false;
-    }
-    if(count_left != count_right) return false;
- */
 }
 
-/*
+int compute(char operand1, char operand2, char oper){
+    switch(oper){
+        case '+':
+	    return operand1 + operand2;
+	case '-':
+	    return operand1 - operand2;
+	case '*':
+	    return operand1 * operand2;
+	case '/':
+	    if(operand2 == 0)
+	    return operand1 / operand2;
+
+	default:
+    }
+}
+
+int eval_postfix(const string& postfix, int& result){
+    stack<char> operandStack;
+    for(string::iterator it = postfix.begin(); it != postfix.end(); it++){
+        if(isOperand(*it))
+	    operandStack.push(*it);
+	else{// binary operator
+	    char operand2 = operandStack.top();
+	    operandStack.pop();
+	    char operand1 = operandStack.top();
+	    operandStack.pop();
+	    compute(operand1, operand2, *it, result);
+	}
+    }
+}
+
 int evaluate(string infix, const Map& values, string postfix, int& result){
 
     stack<char> postfixStack;
@@ -151,14 +135,14 @@ int evaluate(string infix, const Map& values, string postfix, int& result){
 	        operatorStack.push(c);
 		break;
 	    case 3:
-	        while(operatorStack.top() != "("){
+	        while(operatorStack.top() != '('){
 		    postfixStack.push(operatorStack.top());
 		    operatorStack.pop();
 		}
 		operatorStack.pop();
 		break;
 	    case 4:
-	        while(!operatorStack.emtpy() && operatorStack.top() != "(" && precedence(c) <= precedence(operatorStack.top())){
+	        while(!operatorStack.empty() && operatorStack.top() != '(' && precedence(c) <= precedence(operatorStack.top())){
 		    postfixStack.push(operatorStack.top());
                     operatorStack.pop();
 		}
@@ -172,9 +156,9 @@ int evaluate(string infix, const Map& values, string postfix, int& result){
         postfixStack.push(operatorStack.top());
 	operatorStack.pop();
 
-    return postfix;
+    return eval_postfix(postfix, result);
 }
-*/
+
 void test_isValid(){
     assert(isValid("+") == false); 
     assert(isValid("+a") == false); 
