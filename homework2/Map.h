@@ -1,9 +1,9 @@
 #ifndef MAP_INCLUDED
 #define MAP_INCLUDED
 #include <string>
-typedef std::string KeyType;
+typedef char KeyType;
 //typedef int KeyType;
-typedef double ValueType;
+typedef int ValueType;
 //typedef std::string ValueType;
 
 class Map{

@@ -1,5 +1,6 @@
 #include <queue>
 #include <string>
+#include <iostream>
 using namespace std;
 class Coord{
     public:
@@ -21,6 +22,7 @@ bool pathExists(string maze[], int nRows, int nCols, int sr, int sc, int er, int
 
     while(!coordQueue.empty()){
         Coord curr = coordQueue.front();
+	//cerr << "( " << curr.r() << ", " << curr.c() << " )" << endl;
 	coordQueue.pop();
 
 	int curr_r = curr.r();

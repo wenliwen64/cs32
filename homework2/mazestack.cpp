@@ -1,5 +1,6 @@
 #include <stack>
 #include <string>
+#include <iostream>
 using namespace std;
 class Coord{
     public:
@@ -21,7 +22,9 @@ bool pathExists(string maze[], int nRows, int nCols, int sr, int sc, int er, int
 
     while(!coordStack.empty()){
         Coord curr = coordStack.top();
+	//cerr << "( " << curr.r() << ", " << curr.c() << " )" << endl;
 	coordStack.pop();
+
 
 	int curr_r = curr.r();
 	int curr_c = curr.c();

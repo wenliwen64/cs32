@@ -18,8 +18,8 @@ int main()
 	"XXXXXXXXXX"
     };
 
-    //if (pathExists(maze, 10,10, 6,4, 1,1))
-    if (pathExists(maze, 10,10, 6,4, 8,3))
+    if (pathExists(maze, 10,10, 6,4, 1,1))
+    //if (pathExists(maze, 10,10, 6,4, 8,3))
 //    if (pathExists(maze, 10,10, 6,4, 5,8))
 	cout << "Solvable!" << endl;
     else
